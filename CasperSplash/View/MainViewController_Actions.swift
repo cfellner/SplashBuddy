@@ -6,10 +6,12 @@
 //  Copyright © 2017 François Levaux-Tiffreau. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 extension MainViewController {
     
+    
+    /// Do the initial setup of the view
     func setupInstalling() {
         indeterminateProgressIndicator.startAnimation(self)
         indeterminateProgressIndicator.isHidden = false
@@ -22,7 +24,7 @@ extension MainViewController {
     }
     
     
-    
+    /// One or more applications failed to install
     func errorWhileInstalling() {
         indeterminateProgressIndicator.isHidden = true
         installingLabel.stringValue = ""
@@ -47,13 +49,13 @@ extension MainViewController {
     }
 
     
-    
+    /// All critical applications were installed
     func canContinue() {
         continueButton?.isEnabled = true
     }
     
     
-    
+    /// All applications were installed successfuly
     func doneInstalling() {
         indeterminateProgressIndicator.isHidden = true
         installingLabel.stringValue = ""
@@ -61,6 +63,20 @@ extension MainViewController {
         statusLabel.stringValue = NSLocalizedString("All applications were installed. Please click continue.", comment: "All applications were installed. Please click continue.")
     }
     
+    
+    /// All applications were installed (successfuly or not)
+    func allDone() {
+        
+        // If Continue Button is hidden, application will quit after 5 seconds
+        
+        if Preferences.sharedInstance.hideContinueButton {
+            Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(MainViewController.quitApplication), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func quitApplication() {
+        NSApplication.shared().terminate(self)
+    }
 
     
     

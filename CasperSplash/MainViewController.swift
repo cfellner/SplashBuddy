@@ -18,6 +18,7 @@ class MainViewController: NSViewController, NSTableViewDataSource {
     @IBOutlet weak var installingLabel: NSTextField!
     @IBOutlet var mainView: NSView!
     @IBOutlet weak var statusView: NSView!
+    @IBOutlet weak var csContinueButtonHeigth: NSLayoutConstraint!
    
     // Predicate used by Storyboard to filter which software to display
     let predicate = NSPredicate.init(format: "displayToUser = true")
@@ -42,6 +43,11 @@ class MainViewController: NSViewController, NSTableViewDataSource {
         self.mainView.layer?.shadowRadius = 2
         self.mainView.layer?.borderWidth = 0.2
         
+        // Hide Continue Button if hideContinueButton is set in io.fti.CasperSplash
+        if Preferences.sharedInstance.hideContinueButton {
+            self.csContinueButtonHeigth?.constant = 0
+            self.continueButton?.isHidden = true
+        }
         
         // Setup the initial state of objects
         self.setupInstalling()
@@ -62,7 +68,10 @@ class MainViewController: NSViewController, NSTableViewDataSource {
                                                name: NSNotification.Name(rawValue: "doneInstalling"),
                                                object: nil)
         
-        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(MainViewController.allDone),
+                                               name: NSNotification.Name(rawValue: "allDone"),
+                                               object: nil)
         
 
  
@@ -71,21 +80,7 @@ class MainViewController: NSViewController, NSTableViewDataSource {
     
     @IBAction func pressedContinueButton(_ sender: AnyObject) {
         
-        guard let postInstallScript = Preferences.sharedInstance.postInstallScript else {
-            Log.write(string: "Couldn't get postInstall Script", cat: "Foundation", level: .error)
-            NSApplication.shared().terminate(self)
-            return
-        }
-        
-        postInstallScript.execute({ (isSuccessful) in
-            
-            if !isSuccessful {
-                Log.write(string: "Couldn't execute postInstall Script", cat: "Foundation", level: .error)
-            }
-            
-            NSApplication.shared().terminate(self)
-            
-        })
+        self.quitApplication()
         
     }
     

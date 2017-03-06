@@ -37,6 +37,15 @@ class Preferences {
     /// User defaults. Should always use standardUserDefaults() if not testing.
     var userDefaults: UserDefaults?
     
+    // hideContinueButton -- Hide Continue Button
+    lazy var hideContinueButton: Bool = {
+        if let userDefaults = self.userDefaults {
+            if userDefaults.bool(forKey: "hideContinueButton") == true {
+                return true
+            }
+        }
+        return false
+    }()
     
     
     

@@ -29,6 +29,13 @@ class SoftwareArray: NSObject {
         let displayedSoftwareArray = _array.filter({ $0.displayToUser == true })
         return displayedSoftwareArray.filter({ $0.status == .success }).count == displayedSoftwareArray.count
     }
+    
+    func allDone(_ _array: [Software] = SoftwareArray.sharedInstance.array) -> Bool {
+        let displayedSoftwareArray = _array.filter({ $0.displayToUser == true })
+        dump(displayedSoftwareArray.filter({ $0.status == .success || $0.status == .failed }).count)
+        dump(displayedSoftwareArray.count)
+        return displayedSoftwareArray.filter({ $0.status == .success || $0.status == .failed }).count == displayedSoftwareArray.count
+    }
 
     
     
@@ -40,15 +47,18 @@ class SoftwareArray: NSObject {
     func checkSoftwareStatus() {
         if self.failedSoftwareArray().count > 0 {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "errorWhileInstalling"), object: nil)
-        } else if self.canContinue() {
+        }
+        
+        if self.canContinue() {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "canContinue"), object: nil)
-        } else {
-            /// TODO ?
-            print("SetupInstalling()")
         }
         
         if self.allInstalled() {
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "doneInstalling"), object: nil)
+        }
+        
+        if self.allDone() {
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "allDone"), object: nil)
         }
     }
 

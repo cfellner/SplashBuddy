@@ -282,6 +282,7 @@
                     </view>
                     <connections>
                         <outlet property="continueButton" destination="2Cu-8a-kCe" id="qJx-lY-0bY"/>
+                        <outlet property="csContinueButtonHeigth" destination="6vh-2O-7PQ" id="Leb-F8-hoF"/>
                         <outlet property="indeterminateProgressIndicator" destination="7jp-Ob-web" id="pNS-tc-4HU"/>
                         <outlet property="installingLabel" destination="Pvw-wq-IjD" id="Vw9-kM-Wyg"/>
                         <outlet property="mainView" destination="VI7-LS-rJR" id="kli-bF-0SB"/>

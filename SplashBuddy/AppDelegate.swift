@@ -45,7 +45,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         // Get preferences from UserDefaults
         Preferences.sharedInstance.getPreferencesApplications()
-        Parser.sharedInstance.readTimer()
+//        Parser.sharedInstance.readTimer()
+        Parser.sharedInstance.startTimer()
         
 
     }

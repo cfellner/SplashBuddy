@@ -17,10 +17,12 @@ class Preferences {
     
     static let sharedInstance = Preferences()
     public let logFileHandle: FileHandle?
+    public let logFileHandleForFW: FileHandle?
     public var doneParsingPlist: Bool = false
     
     internal let userDefaults: UserDefaults
     internal let jamfLog = "/var/log/jamf.log"
+    internal let FWLog = "/var/log/fwcld.log"
     
 
     
@@ -42,6 +44,15 @@ class Preferences {
                       level: .error)
             self.logFileHandle = nil
         }
+        do {
+            self.logFileHandleForFW = try FileHandle(forReadingFrom: URL(fileURLWithPath: self.FWLog, isDirectory: false))
+        } catch {
+            Log.write(string: "Cannot read /var/log/fwcld.log",
+                      cat: "Preferences",
+                      level: .error)
+            self.logFileHandleForFW = nil
+        }
+        
         
         
 

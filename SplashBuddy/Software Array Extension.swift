@@ -28,6 +28,11 @@ extension Array where Element:Software {
             
         }
     }
+    mutating func modify(with softwares: [Software]) {
+        for sw in softwares {
+            self.modify(with: sw)
+        }
+    }
     
     
     /** Tries to get a Software from `line`. 
@@ -35,7 +40,8 @@ extension Array where Element:Software {
     **/
     mutating func modify(from line: String) {
         
-        guard let software = Software(from: line) else {
+//        guard let software = Software(packageName: line) else {
+        guard let software = Software(sourceRegEx: initRegex, from: line) else {
             return // we don't care
         }
         
@@ -52,14 +58,14 @@ extension Array where Element:Software {
     }
     
     
-    mutating func modify(from file: FileHandle) {
-        
-        guard let lines = file.readLines() else {
-            return // TODO: don't care ??
-        }
-        
-        for line in lines {
-            self.modify(from: line)
-        }
-    }
+//    mutating func modify(from file: FileHandle) {
+//        
+//        guard let lines = file.readLines() else {
+//            return // TODO: don't care ??
+//        }
+//        
+//        for line in lines {
+//            self.modify(from: line)
+//        }
+//    }
 }

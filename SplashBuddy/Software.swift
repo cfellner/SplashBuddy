@@ -87,13 +87,15 @@ class Software: NSObject {
         
     }
     
-    convenience init?(from line: String) {
+    convenience init?(sourceRegEx: () -> Dictionary<Software.SoftwareStatus, NSRegularExpression?>,
+                      from line: String) {
         
         var name: String?
         var version: String?
         var status: SoftwareStatus?
         
-        for (regexStatus, regex) in initRegex() {
+        //for (regexStatus, regex) in initRegex() {
+        for (regexStatus, regex) in sourceRegEx() {
             
             status = regexStatus
             

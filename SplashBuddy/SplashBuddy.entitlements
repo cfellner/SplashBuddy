@@ -7,6 +7,7 @@
 	<key>com.apple.security.temporary-exception.files.absolute-path.read-only</key>
 	<array>
 		<string>/private/var/log/jamf.log</string>
+		<string>/private/var/log/fwcld.log</string>
 	</array>
 </dict>
 </plist>
